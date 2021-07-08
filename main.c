@@ -1,8 +1,16 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#include <pthread.h>
 
-static bool IsPrime(int number)
-{
+long max_number;
+long qt_threads;
+
+
+static bool is_prime(int number)
+{   
+    if (number == 1)
+        return false;
     for (int i = 2; i < number; i++)
     {
         if (number % i == 0 && i != number)
@@ -11,47 +19,47 @@ static bool IsPrime(int number)
     return true;
 }
 
+void * is_prime_thread(void *arg){
+    long tid;
+    tid = (long)arg;
+    
+    int i; 
+    for(i=tid; i < max_number; i+=qt_threads)
+    {
+        if(is_prime(i))
+            printf("%d\n", i);
+    }
 
-
-
-
+    pthread_exit(NULL);
+}
 
 
 int main(int argc, char *argv[])
 {
 
-    int max_number;
-    int threads_num;
-
-    if(argc<3){
+    if (argc < 3){
         printf("\nNot enough arguments to start program");
         printf("\nUsage: ./prime <max_number> <number_of_threads>\n");
         return 0;
     };
 
-    // max_number = argv[1];
-    // threads_num = argv[2];
     printf("Max number %s\n", argv[1]);
     printf("Number of threads %s\n", argv[2]);
 
-	int loop;
-    int numbers[11];
-    for(int i = 0; i <= 10; i++){
-    numbers[i] = i;
-}
-	//calculate length of the array
-	int len = sizeof(numbers)/sizeof(numbers[0]);
+    max_number = strtol(argv[1], NULL, 10);
 
-	//print array elements with message
-	//"prime" or "Not prime"
-	for(loop=0; loop<len; loop++)
-	{
-		// printf("%3d - %s\n",numbers[loop],(isPrime(numbers[loop])?"Prime":"Not Prime"));
-        if(IsPrime(numbers[loop]))
-             printf("%d\n", numbers[loop]);
-	}
+    qt_threads = strtol(argv[2], NULL, 10);
+
+    pthread_t prime_t[qt_threads];
+
+    long i;
+    for (i = 1; i < qt_threads; i++) {
+        pthread_create(&prime_t[i], NULL, is_prime_thread, (void *)i);
+    }
+    for (i = 1; i < qt_threads; i++) {
+        pthread_join(prime_t[i], NULL);
+    }
 
 	printf("\n");
-
 	return 0;
 }
