@@ -2,8 +2,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-
-
 static bool IsPrime(int number)
 {
     for (int i = 2; i < number; i++)
@@ -13,7 +11,6 @@ static bool IsPrime(int number)
     }
     return true;
 }
-
 
 int main()
 {
