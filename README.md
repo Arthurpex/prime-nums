@@ -8,10 +8,8 @@ Na versão sequencial, o intervalo é fixo de 0 a 10000. Já o paralelo recebe c
 Para analisar a eficiência e o fator speedup foi usado o comando time do Linux. 
 
 ### Execução
-gcc sequential.c -o sequential
+`gcc sequential.c -o sequential`<br>
+`./sequential`
 
-./sequential
-
-gcc parallel.c -o parallel
-
-./parallel <max_number> <num_threads> 
+`gcc parallel.c -o parallel`<br>
+`./parallel <max_number> <num_threads> `
