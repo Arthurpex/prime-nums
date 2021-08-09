@@ -9,7 +9,9 @@ Para analisar a eficiência e o fator speedup foi usado o comando time do Linux.
 
 ### Execução
 gcc sequential.c -o sequential
+
 ./sequential
 
 gcc parallel.c -o parallel
+
 ./parallel <max_number> <num_threads> 
